@@ -1,29 +1,29 @@
 {
   "EDITOR_STATE": {
     "allProjectFiles": {
-      "b0f4333f-8fc8-425f-9863-e81c3138df9c": {
-        "id": "b0f4333f-8fc8-425f-9863-e81c3138df9c",
+      "3e000375-5f24-448a-9dd8-0f458c419b9f": {
+        "id": "3e000375-5f24-448a-9dd8-0f458c419b9f",
         "parent": null,
         "name": "p",
         "type": "DIRECTORY",
         "isDirectory": true,
         "children": [
-          "25210466-879f-41af-91ba-f467eb172568",
-          "727a9205-8094-493d-bbda-4c73e3c98a9a"
+          "a732bbcc-9bb5-4404-9e69-3ceef26a85fb",
+          "9749e063-2a85-4e93-b103-9b7056221381"
         ],
         "isRemovable": false,
         "filePath": "p"
       },
-      "25210466-879f-41af-91ba-f467eb172568": {
-        "id": "25210466-879f-41af-91ba-f467eb172568",
-        "parent": "b0f4333f-8fc8-425f-9863-e81c3138df9c",
+      "a732bbcc-9bb5-4404-9e69-3ceef26a85fb": {
+        "id": "a732bbcc-9bb5-4404-9e69-3ceef26a85fb",
+        "parent": "3e000375-5f24-448a-9dd8-0f458c419b9f",
         "name": "lambda.js",
         "type": "JS_LAMBDA",
         "isDirectory": false,
         "children": [],
         "isRemovable": true,
         "filePath": "p/lambda.js",
-        "code": "let SL_AWS = require('slappforge-sdk-aws');\nlet connectionManager = require('./ConnectionManager');\nconst rds = new SL_AWS.RDS(connectionManager);\n\nexports.handler = function (event, context, callback) {\n\n    // You must always end/destroy the DB connection after it's used\n    rds.beginTransaction({\n        instanceIdentifier: 'k'\n    }, function (error, connection) {\n        if (error) {\n            throw error;\n        }\n        connection.end();\n    });\n\n    callback(null, { \"message\": \"Successfully executed\" });\n}",
+        "code": "let SL_AWS = require('slappforge-sdk-aws');\nlet connectionManager = require('./ConnectionManager');\nconst rds = new SL_AWS.RDS(connectionManager);\n\nexports.handler = function (event, context, callback) {\n\n    // You must always end/destroy the DB connection after it's used\n    rds.beginTransaction({\n        instanceIdentifier: 's'\n    }, function (error, connection) {\n        if (error) {\n            throw error;\n        }\n        connection.end();\n    });\n\n    callback(null, { \"message\": \"Successfully executed\" });\n}",
         "config": {
           "runtime": "nodejs8.10",
           "handler": "handler",
@@ -33,27 +33,27 @@
         },
         "triggers": []
       },
-      "727a9205-8094-493d-bbda-4c73e3c98a9a": {
-        "id": "727a9205-8094-493d-bbda-4c73e3c98a9a",
-        "parent": "b0f4333f-8fc8-425f-9863-e81c3138df9c",
+      "9749e063-2a85-4e93-b103-9b7056221381": {
+        "id": "9749e063-2a85-4e93-b103-9b7056221381",
+        "parent": "3e000375-5f24-448a-9dd8-0f458c419b9f",
         "name": "ConnectionManager.js",
         "type": "JS_FILE",
         "isDirectory": false,
         "children": [],
         "isRemovable": true,
         "filePath": "p/ConnectionManager.js",
-        "code": "module.exports = function() {\n    this.dbConnections = [];\n\n    this.dbConnections[\"k\"] = {\n        host: process.env.EndPoint_rdsK,\n        port: process.env.Port_rdsK,\n        user: process.env.User_rdsK,\n        password: process.env.Password_rdsK,\n        database: \"k\"\n    };\n};"
+        "code": "module.exports = function() {\n    this.dbConnections = [];\n\n    this.dbConnections[\"s\"] = {\n        host: process.env.EndPoint_rdsS,\n        port: process.env.Port_rdsS,\n        user: process.env.User_rdsS,\n        password: process.env.Password_rdsS,\n        database: \"s\"\n    };\n};"
       }
     },
     "deletedFiles": [],
-    "rootNode": "b0f4333f-8fc8-425f-9863-e81c3138df9c",
+    "rootNode": "3e000375-5f24-448a-9dd8-0f458c419b9f",
     "openFiles": [
-      "25210466-879f-41af-91ba-f467eb172568"
+      "a732bbcc-9bb5-4404-9e69-3ceef26a85fb"
     ],
-    "currentFileId": "25210466-879f-41af-91ba-f467eb172568",
+    "currentFileId": "a732bbcc-9bb5-4404-9e69-3ceef26a85fb",
     "resources": {
-      "rds-k": {
-        "name": "rds-k",
+      "rds-s": {
+        "name": "rds-s",
         "type": "RDS",
         "config": {
           "editMode": false,
@@ -67,12 +67,12 @@
               "dbEngineVersion": "5.5.46"
             },
             "rdsSetting": {
-              "instanceIdentifier": "k",
-              "masterUsername": "k",
+              "instanceIdentifier": "s",
+              "masterUsername": "s",
               "masterPassword": "Test#123"
             },
             "rdsDBOptions": {
-              "dbName": "k",
+              "dbName": "s",
               "dbPort": "1234"
             },
             "rdsInstanceArn": "",
@@ -128,7 +128,7 @@
     "projectRegion": "us-east-1",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1564645569758
+    "lastSave": 1564645747123
   },
   "VCS_STATE": {
     "provider": "GitHub",
