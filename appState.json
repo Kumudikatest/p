@@ -1,29 +1,29 @@
 {
   "EDITOR_STATE": {
     "allProjectFiles": {
-      "edc8f00d-1681-44da-aff0-758c7e02ff78": {
-        "id": "edc8f00d-1681-44da-aff0-758c7e02ff78",
+      "bf64e70b-7229-46f5-9fda-c7e010619c8e": {
+        "id": "bf64e70b-7229-46f5-9fda-c7e010619c8e",
         "parent": null,
         "name": "p",
         "type": "DIRECTORY",
         "isDirectory": true,
         "children": [
-          "006ee8e3-f340-441d-ac1c-55725acda375",
-          "31dae74d-370e-461a-a3fd-61a8877c8f6e"
+          "f540b000-d6a6-4eaa-aea8-00b30f07bdc8",
+          "75799bdd-bf88-4b20-9a5f-7d6f7b30df7c"
         ],
         "isRemovable": false,
         "filePath": "p"
       },
-      "006ee8e3-f340-441d-ac1c-55725acda375": {
-        "id": "006ee8e3-f340-441d-ac1c-55725acda375",
-        "parent": "edc8f00d-1681-44da-aff0-758c7e02ff78",
+      "f540b000-d6a6-4eaa-aea8-00b30f07bdc8": {
+        "id": "f540b000-d6a6-4eaa-aea8-00b30f07bdc8",
+        "parent": "bf64e70b-7229-46f5-9fda-c7e010619c8e",
         "name": "lambda.js",
         "type": "JS_LAMBDA",
         "isDirectory": false,
         "children": [],
         "isRemovable": true,
         "filePath": "p/lambda.js",
-        "code": "let SL_AWS = require('slappforge-sdk-aws');\nlet connectionManager = require('./ConnectionManager');\nconst rds = new SL_AWS.RDS(connectionManager);\n\nexports.handler = function (event, context, callback) {\n\n    // You must always end/destroy the DB connection after it's used\n    rds.beginTransaction({\n        instanceIdentifier: 'K'\n    }, function (error, connection) {\n        if (error) {\n            throw error;\n        }\n        connection.end();\n    });\n\n    callback(null, { \"message\": \"Successfully executed\" });\n}",
+        "code": "let SL_AWS = require('slappforge-sdk-aws');\nlet connectionManager = require('./ConnectionManager');\nconst rds = new SL_AWS.RDS(connectionManager);\n\nexports.handler = function (event, context, callback) {\n\n    // You can pass the existing connection to this function.\n    // A new connection will be created if it's not present as the third param \n    // You must always end/destroy the DB connection after it's used\n    rds.query({\n        instanceIdentifier: 'k',\n        query: 'INSERT INTO Test(ID);',\n        inserts: [1]\n    }, function (error, results, connection) {\n        if (error) {\n            console.log(\"Error occurred\");\n            throw error;\n        } else {\n            console.log(\"Success\")\n            console.log(results);\n        }\n\n        connection.end();\n    });\n\n    callback(null, { \"message\": \"Successfully executed\" });\n}",
         "config": {
           "runtime": "nodejs8.10",
           "handler": "handler",
@@ -33,47 +33,47 @@
         },
         "triggers": []
       },
-      "31dae74d-370e-461a-a3fd-61a8877c8f6e": {
-        "id": "31dae74d-370e-461a-a3fd-61a8877c8f6e",
-        "parent": "edc8f00d-1681-44da-aff0-758c7e02ff78",
+      "75799bdd-bf88-4b20-9a5f-7d6f7b30df7c": {
+        "id": "75799bdd-bf88-4b20-9a5f-7d6f7b30df7c",
+        "parent": "bf64e70b-7229-46f5-9fda-c7e010619c8e",
         "name": "ConnectionManager.js",
         "type": "JS_FILE",
         "isDirectory": false,
         "children": [],
         "isRemovable": true,
         "filePath": "p/ConnectionManager.js",
-        "code": "module.exports = function() {\n    this.dbConnections = [];\n\n    this.dbConnections[\"K\"] = {\n        host: process.env.EndPoint_rdsK,\n        port: process.env.Port_rdsK,\n        user: process.env.User_rdsK,\n        password: process.env.Password_rdsK,\n        database: \"Kk\"\n    };\n};"
+        "code": "module.exports = function() {\n    this.dbConnections = [];\n\n    this.dbConnections[\"k\"] = {\n        host: process.env.EndPoint_rdsK,\n        port: process.env.Port_rdsK,\n        user: process.env.User_rdsK,\n        password: process.env.Password_rdsK,\n        database: \"k\"\n    };\n};"
       }
     },
     "deletedFiles": [],
-    "rootNode": "edc8f00d-1681-44da-aff0-758c7e02ff78",
+    "rootNode": "bf64e70b-7229-46f5-9fda-c7e010619c8e",
     "openFiles": [
-      "006ee8e3-f340-441d-ac1c-55725acda375"
+      "f540b000-d6a6-4eaa-aea8-00b30f07bdc8"
     ],
-    "currentFileId": "006ee8e3-f340-441d-ac1c-55725acda375",
+    "currentFileId": "f540b000-d6a6-4eaa-aea8-00b30f07bdc8",
     "resources": {
-      "rds-K": {
-        "name": "rds-K",
+      "rds-k": {
+        "name": "rds-k",
         "type": "RDS",
         "config": {
           "editMode": false,
-          "operation": 1,
+          "operation": 0,
           "rdsInstance": {
             "rdsEngineType": "mysql",
             "rdsEdition": "",
             "rdsInstanceSpec": {
-              "dbInstanceClass": "db.m4.xlarge",
+              "dbInstanceClass": "db.m3.xlarge",
               "dbLicenseModel": "general-public-license",
               "dbEngineVersion": "5.6.29"
             },
             "rdsSetting": {
-              "instanceIdentifier": "K",
-              "masterUsername": "K",
+              "instanceIdentifier": "k",
+              "masterUsername": "k",
               "masterPassword": "Test#123"
             },
             "rdsDBOptions": {
-              "dbName": "Kk",
-              "dbPort": "2345"
+              "dbName": "k",
+              "dbPort": "1234"
             },
             "rdsInstanceArn": "",
             "Host": "",
@@ -86,8 +86,8 @@
           "mode": 0,
           "additionalFiles": [],
           "params": {
-            "query": "",
-            "inserts": ""
+            "query": "INSERT INTO Test(ID);",
+            "inserts": "1"
           },
           "isGlobalEditMode": false,
           "enableInject": true,
@@ -128,7 +128,7 @@
     "projectRegion": "us-east-1",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1564637991802
+    "lastSave": 1564638372165
   },
   "VCS_STATE": {
     "provider": "GitHub",
