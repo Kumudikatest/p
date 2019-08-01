@@ -8,8 +8,8 @@ exports.handler = function (event, context, callback) {
     // A new connection will be created if it's not present as the third param 
     // You must always end/destroy the DB connection after it's used
     rds.query({
-        instanceIdentifier: 'k',
-        query: 'INSERT INTO Test(ID);',
+        instanceIdentifier: 'l',
+        query: 'INSERT INTO Test (ID);',
         inserts: [1]
     }, function (error, results, connection) {
         if (error) {

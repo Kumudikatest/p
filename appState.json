@@ -1,29 +1,29 @@
 {
   "EDITOR_STATE": {
     "allProjectFiles": {
-      "bf64e70b-7229-46f5-9fda-c7e010619c8e": {
-        "id": "bf64e70b-7229-46f5-9fda-c7e010619c8e",
+      "0c20f1ed-1190-404b-aa5e-684ae5fe48f8": {
+        "id": "0c20f1ed-1190-404b-aa5e-684ae5fe48f8",
         "parent": null,
         "name": "p",
         "type": "DIRECTORY",
         "isDirectory": true,
         "children": [
-          "f540b000-d6a6-4eaa-aea8-00b30f07bdc8",
-          "75799bdd-bf88-4b20-9a5f-7d6f7b30df7c"
+          "af4e663d-36f1-4a4f-a711-f11273f8b996",
+          "2b2e6436-546e-461d-81b0-dffbde3747d0"
         ],
         "isRemovable": false,
         "filePath": "p"
       },
-      "f540b000-d6a6-4eaa-aea8-00b30f07bdc8": {
-        "id": "f540b000-d6a6-4eaa-aea8-00b30f07bdc8",
-        "parent": "bf64e70b-7229-46f5-9fda-c7e010619c8e",
+      "af4e663d-36f1-4a4f-a711-f11273f8b996": {
+        "id": "af4e663d-36f1-4a4f-a711-f11273f8b996",
+        "parent": "0c20f1ed-1190-404b-aa5e-684ae5fe48f8",
         "name": "lambda.js",
         "type": "JS_LAMBDA",
         "isDirectory": false,
         "children": [],
         "isRemovable": true,
         "filePath": "p/lambda.js",
-        "code": "let SL_AWS = require('slappforge-sdk-aws');\nlet connectionManager = require('./ConnectionManager');\nconst rds = new SL_AWS.RDS(connectionManager);\n\nexports.handler = function (event, context, callback) {\n\n    // You can pass the existing connection to this function.\n    // A new connection will be created if it's not present as the third param \n    // You must always end/destroy the DB connection after it's used\n    rds.query({\n        instanceIdentifier: 'k',\n        query: 'INSERT INTO Test(ID);',\n        inserts: [1]\n    }, function (error, results, connection) {\n        if (error) {\n            console.log(\"Error occurred\");\n            throw error;\n        } else {\n            console.log(\"Success\")\n            console.log(results);\n        }\n\n        connection.end();\n    });\n\n    callback(null, { \"message\": \"Successfully executed\" });\n}",
+        "code": "let SL_AWS = require('slappforge-sdk-aws');\nlet connectionManager = require('./ConnectionManager');\nconst rds = new SL_AWS.RDS(connectionManager);\n\nexports.handler = function (event, context, callback) {\n\n    // You can pass the existing connection to this function.\n    // A new connection will be created if it's not present as the third param \n    // You must always end/destroy the DB connection after it's used\n    rds.query({\n        instanceIdentifier: 'l',\n        query: 'INSERT INTO Test (ID);',\n        inserts: [1]\n    }, function (error, results, connection) {\n        if (error) {\n            console.log(\"Error occurred\");\n            throw error;\n        } else {\n            console.log(\"Success\")\n            console.log(results);\n        }\n\n        connection.end();\n    });\n\n    callback(null, { \"message\": \"Successfully executed\" });\n}",
         "config": {
           "runtime": "nodejs8.10",
           "handler": "handler",
@@ -33,27 +33,27 @@
         },
         "triggers": []
       },
-      "75799bdd-bf88-4b20-9a5f-7d6f7b30df7c": {
-        "id": "75799bdd-bf88-4b20-9a5f-7d6f7b30df7c",
-        "parent": "bf64e70b-7229-46f5-9fda-c7e010619c8e",
+      "2b2e6436-546e-461d-81b0-dffbde3747d0": {
+        "id": "2b2e6436-546e-461d-81b0-dffbde3747d0",
+        "parent": "0c20f1ed-1190-404b-aa5e-684ae5fe48f8",
         "name": "ConnectionManager.js",
         "type": "JS_FILE",
         "isDirectory": false,
         "children": [],
         "isRemovable": true,
         "filePath": "p/ConnectionManager.js",
-        "code": "module.exports = function() {\n    this.dbConnections = [];\n\n    this.dbConnections[\"k\"] = {\n        host: process.env.EndPoint_rdsK,\n        port: process.env.Port_rdsK,\n        user: process.env.User_rdsK,\n        password: process.env.Password_rdsK,\n        database: \"k\"\n    };\n};"
+        "code": "module.exports = function() {\n    this.dbConnections = [];\n\n    this.dbConnections[\"l\"] = {\n        host: process.env.EndPoint_rdsL,\n        port: process.env.Port_rdsL,\n        user: process.env.User_rdsL,\n        password: process.env.Password_rdsL,\n        database: \"l\"\n    };\n};"
       }
     },
     "deletedFiles": [],
-    "rootNode": "bf64e70b-7229-46f5-9fda-c7e010619c8e",
+    "rootNode": "0c20f1ed-1190-404b-aa5e-684ae5fe48f8",
     "openFiles": [
-      "f540b000-d6a6-4eaa-aea8-00b30f07bdc8"
+      "af4e663d-36f1-4a4f-a711-f11273f8b996"
     ],
-    "currentFileId": "f540b000-d6a6-4eaa-aea8-00b30f07bdc8",
+    "currentFileId": "af4e663d-36f1-4a4f-a711-f11273f8b996",
     "resources": {
-      "rds-k": {
-        "name": "rds-k",
+      "rds-l": {
+        "name": "rds-l",
         "type": "RDS",
         "config": {
           "editMode": false,
@@ -62,23 +62,23 @@
             "rdsEngineType": "mysql",
             "rdsEdition": "",
             "rdsInstanceSpec": {
-              "dbInstanceClass": "db.m3.xlarge",
+              "dbInstanceClass": "db.m3.medium",
               "dbLicenseModel": "general-public-license",
-              "dbEngineVersion": "5.6.29"
+              "dbEngineVersion": "5.6.34"
             },
             "rdsSetting": {
-              "instanceIdentifier": "k",
-              "masterUsername": "k",
+              "instanceIdentifier": "l",
+              "masterUsername": "l",
               "masterPassword": "Test#123"
             },
             "rdsDBOptions": {
-              "dbName": "k",
+              "dbName": "l",
               "dbPort": "1234"
             },
             "rdsInstanceArn": "",
             "Host": "",
             "doesExist": false,
-            "initializationQuery": "CREATE TABLE Test(ID int);",
+            "initializationQuery": "CREATE TABLE Test (ID int);",
             "alreadyDeployed": false
           },
           "rdsInstanceResources": [],
@@ -86,7 +86,7 @@
           "mode": 0,
           "additionalFiles": [],
           "params": {
-            "query": "INSERT INTO Test(ID);",
+            "query": "INSERT INTO Test (ID);",
             "inserts": "1"
           },
           "isGlobalEditMode": false,
@@ -128,7 +128,7 @@
     "projectRegion": "us-east-1",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1564638372165
+    "lastSave": 1564645139174
   },
   "VCS_STATE": {
     "provider": "GitHub",
