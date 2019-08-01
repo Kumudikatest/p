@@ -23,7 +23,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "p/lambda.js",
-        "code": "let SL_REDIS = require('slappforge-sdk-redis');\nlet clusterManager = require('./ClusterManager');\nconst redis = new SL_REDIS.Redis(clusterManager);\n\nexports.handler = function (event, context, callback) {\n    // You must always quit the redis client after it's used\n    redis.sunion({\n        clusterIdentifier: 'k1234567890123456789',\n        params: [{\n            key: '1',\n            values: ['1']\n        }]\n    }, function (error, response, redisClient) {\n        if (error) {\n            callback(error);\n        } else {\n            //redisClient.quit();\n        }\n    });\n\n    callback(null, { \"message\": \"Successfully executed\" });\n}",
+        "code": "let SL_REDIS = require('slappforge-sdk-redis');\nlet clusterManager = require('./ClusterManager');\nconst redis = new SL_REDIS.Redis(clusterManager);\n\nexports.handler = function (event, context, callback) {\n    // You must always quit the redis client after it's used\n    redis.sunion({\n        clusterIdentifier: 'k1234567890123456789',\n        params: [{\n            key: '1',\n            values: ['1']\n        }]\n    }, function (error, response, redisClient) {\n        if (error) {\n            callback(error);\n        } else {\n            redisClient.quit();\n        }\n    });\n\n    callback(null, { \"message\": \"Successfully executed\" });\n}",
         "config": {
           "runtime": "nodejs8.10",
           "handler": "handler",
@@ -61,7 +61,7 @@
             "clusterSpec": {
               "instanceFamily": "t2",
               "nodeTypeClass": "cache.t2.small",
-              "engineVersion": "2.8.19",
+              "engineVersion": "5.0.0",
               "clusterModeEnabled": true,
               "autoFailoverEnabled": true,
               "numOfShards": 3,
@@ -93,12 +93,11 @@
             "external": false
           },
           "clusterResources": [],
-          "editMode": false,
+          "editMode": true,
           "enableInject": true,
           "isGlobalEditMode": false,
           "isClusterSelectionValid": true,
           "isNewFromGlobal": false,
-          "mode": 0,
           "operation": {
             "str": "REDIS_SUNION",
             "operation": "sunion",
@@ -109,6 +108,7 @@
               "displayName": "SETS"
             }
           },
+          "mode": 0,
           "params": [],
           "projectRegion": "us-east-1",
           "reusableMode": false,
@@ -153,14 +153,19 @@
     "projectRegion": "us-east-1",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1564636258993
+    "lastSave": 1564636506500
   },
   "VCS_STATE": {
     "provider": "GitHub",
     "repo": {
       "name": "p",
       "url": "https://github.com/Kumudikatest/p",
-      "branches": []
+      "branches": [
+        {
+          "name": "master",
+          "hash": "16ef6669fd30976653ecd6bfe445f408018ebda4"
+        }
+      ]
     }
   }
 }
