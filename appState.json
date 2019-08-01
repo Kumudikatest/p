@@ -23,7 +23,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "p/lambda.js",
-        "code": "let SL_AWS = require('slappforge-sdk-aws');\nlet connectionManager = require('./ConnectionManager');\nconst rds = new SL_AWS.RDS(connectionManager);\n\nexports.handler = function (event, context, callback) {\n\n    // You must always end/destroy the DB connection after it's used\n    rds.beginTransaction({\n        instanceIdentifier: 's'\n    }, function (error, connection) {\n        if (error) {\n            throw error;\n        }\n        connection.end();\n    });\n\n    callback(null, { \"message\": \"Successfully executed\" });\n}",
+        "code": "exports.handler = function (event, context, callback) {\n    callback(null, { \"message\": \"Successfully executed\" });\n}",
         "config": {
           "runtime": "nodejs8.10",
           "handler": "handler",
@@ -128,14 +128,19 @@
     "projectRegion": "us-east-1",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1564645747123
+    "lastSave": 1564647443909
   },
   "VCS_STATE": {
     "provider": "GitHub",
     "repo": {
       "name": "p",
       "url": "https://github.com/Kumudikatest/p",
-      "branches": []
+      "branches": [
+        {
+          "name": "master",
+          "hash": "067fcf4be4df9d658d899a1d8f42fc029fb56991"
+        }
+      ]
     }
   }
 }
