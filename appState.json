@@ -1,29 +1,29 @@
 {
   "EDITOR_STATE": {
     "allProjectFiles": {
-      "f92c399d-2a42-4bbb-bbde-37e3300117dd": {
-        "id": "f92c399d-2a42-4bbb-bbde-37e3300117dd",
+      "edc8f00d-1681-44da-aff0-758c7e02ff78": {
+        "id": "edc8f00d-1681-44da-aff0-758c7e02ff78",
         "parent": null,
         "name": "p",
         "type": "DIRECTORY",
         "isDirectory": true,
         "children": [
-          "756859c3-7969-4dec-9f3a-24b3d118bed8",
-          "5d4587c6-e94b-4e28-b6db-123f860b31b1"
+          "006ee8e3-f340-441d-ac1c-55725acda375",
+          "31dae74d-370e-461a-a3fd-61a8877c8f6e"
         ],
         "isRemovable": false,
         "filePath": "p"
       },
-      "756859c3-7969-4dec-9f3a-24b3d118bed8": {
-        "id": "756859c3-7969-4dec-9f3a-24b3d118bed8",
-        "parent": "f92c399d-2a42-4bbb-bbde-37e3300117dd",
+      "006ee8e3-f340-441d-ac1c-55725acda375": {
+        "id": "006ee8e3-f340-441d-ac1c-55725acda375",
+        "parent": "edc8f00d-1681-44da-aff0-758c7e02ff78",
         "name": "lambda.js",
         "type": "JS_LAMBDA",
         "isDirectory": false,
         "children": [],
         "isRemovable": true,
         "filePath": "p/lambda.js",
-        "code": "let SL_REDIS = require('slappforge-sdk-redis');\nlet clusterManager = require('./ClusterManager');\nconst redis = new SL_REDIS.Redis(clusterManager);\n\nexports.handler = function (event, context, callback) {\n    // You must always quit the redis client after it's used\n    redis.sunion({\n        clusterIdentifier: 'k1234567890123456789',\n        params: [{\n            key: '1',\n            values: ['1']\n        }]\n    }, function (error, response, redisClient) {\n        if (error) {\n            callback(error);\n        } else {\n            redisClient.quit();\n        }\n    });\n\n    callback(null, { \"message\": \"Successfully executed\" });\n}",
+        "code": "let SL_AWS = require('slappforge-sdk-aws');\nlet connectionManager = require('./ConnectionManager');\nconst rds = new SL_AWS.RDS(connectionManager);\n\nexports.handler = function (event, context, callback) {\n\n    // You must always end/destroy the DB connection after it's used\n    rds.beginTransaction({\n        instanceIdentifier: 'K'\n    }, function (error, connection) {\n        if (error) {\n            throw error;\n        }\n        connection.end();\n    });\n\n    callback(null, { \"message\": \"Successfully executed\" });\n}",
         "config": {
           "runtime": "nodejs8.10",
           "handler": "handler",
@@ -33,90 +33,65 @@
         },
         "triggers": []
       },
-      "5d4587c6-e94b-4e28-b6db-123f860b31b1": {
-        "id": "5d4587c6-e94b-4e28-b6db-123f860b31b1",
-        "parent": "f92c399d-2a42-4bbb-bbde-37e3300117dd",
-        "name": "ClusterManager.js",
+      "31dae74d-370e-461a-a3fd-61a8877c8f6e": {
+        "id": "31dae74d-370e-461a-a3fd-61a8877c8f6e",
+        "parent": "edc8f00d-1681-44da-aff0-758c7e02ff78",
+        "name": "ConnectionManager.js",
         "type": "JS_FILE",
         "isDirectory": false,
         "children": [],
         "isRemovable": true,
-        "filePath": "p/ClusterManager.js",
-        "code": "module.exports = function() {\n    this.clusters = [];\n\n    this.clusters[\"k1234567890123456789\"] = {\n        host: process.env.EndPoint_redisK1234567890123456789,\n        port: 6379,\n        clusterModeEnabled: true\n    };\n};"
+        "filePath": "p/ConnectionManager.js",
+        "code": "module.exports = function() {\n    this.dbConnections = [];\n\n    this.dbConnections[\"K\"] = {\n        host: process.env.EndPoint_rdsK,\n        port: process.env.Port_rdsK,\n        user: process.env.User_rdsK,\n        password: process.env.Password_rdsK,\n        database: \"Kk\"\n    };\n};"
       }
     },
     "deletedFiles": [],
-    "rootNode": "f92c399d-2a42-4bbb-bbde-37e3300117dd",
+    "rootNode": "edc8f00d-1681-44da-aff0-758c7e02ff78",
     "openFiles": [
-      "756859c3-7969-4dec-9f3a-24b3d118bed8"
+      "006ee8e3-f340-441d-ac1c-55725acda375"
     ],
-    "currentFileId": "756859c3-7969-4dec-9f3a-24b3d118bed8",
+    "currentFileId": "006ee8e3-f340-441d-ac1c-55725acda375",
     "resources": {
-      "redis-k1234567890123456789": {
-        "name": "redis-k1234567890123456789",
-        "type": "Redis",
+      "rds-K": {
+        "name": "rds-K",
+        "type": "RDS",
         "config": {
-          "clusterConfig": {
-            "engineType": "redis",
-            "clusterSpec": {
-              "instanceFamily": "t2",
-              "nodeTypeClass": "cache.t2.small",
-              "engineVersion": "5.0.0",
-              "clusterModeEnabled": true,
-              "autoFailoverEnabled": true,
-              "numOfShards": 3,
-              "numOfReplicas": "4"
+          "editMode": false,
+          "operation": 1,
+          "rdsInstance": {
+            "rdsEngineType": "mysql",
+            "rdsEdition": "",
+            "rdsInstanceSpec": {
+              "dbInstanceClass": "db.m4.xlarge",
+              "dbLicenseModel": "general-public-license",
+              "dbEngineVersion": "5.6.29"
             },
-            "clusterSetting": {
-              "clusterName": "k1234567890123456789",
-              "clusterDescription": "k1234567890qwertyuioplkjhgfdsazxcvbnm qwertyuiopasdfghjklzxcvbnm\nqwertyuio weflkwerfgkprgjkeblgj",
-              "port": 6379
+            "rdsSetting": {
+              "instanceIdentifier": "K",
+              "masterUsername": "K",
+              "masterPassword": "Test#123"
             },
-            "vpcSpec": {
-              "vpcType": "EXISTING",
-              "existingVPC": {
-                "vpcID": "vpc-ee1ef195",
-                "subNetID": "subnet-73cfb75c",
-                "securityGroupID": "sg-8dcf1bc5"
-              },
-              "newVPC": {
-                "vpcName": "",
-                "vpcIPv4CIDR": "10.0.0.0/16",
-                "subnetName": "",
-                "subnetIPv4CIDR": "10.0.0.0/20"
-              }
+            "rdsDBOptions": {
+              "dbName": "Kk",
+              "dbPort": "2345"
             },
-            "host": "",
+            "rdsInstanceArn": "",
+            "Host": "",
             "doesExist": false,
-            "alreadyDeployed": false,
-            "redisClient": "",
-            "external": false
+            "initializationQuery": "CREATE TABLE Test(ID int);",
+            "alreadyDeployed": false
           },
-          "clusterResources": [],
-          "editMode": true,
-          "enableInject": true,
-          "isGlobalEditMode": false,
-          "isClusterSelectionValid": true,
-          "isNewFromGlobal": false,
-          "operation": {
-            "str": "REDIS_SUNION",
-            "operation": "sunion",
-            "displayName": "SUNION",
-            "type": {
-              "str": "REDIS_SETS",
-              "type": "sets",
-              "displayName": "SETS"
-            }
-          },
-          "mode": 0,
-          "params": [],
+          "rdsInstanceResources": [],
           "projectRegion": "us-east-1",
-          "reusableMode": false,
-          "showOperations": true,
-          "validator": {
-            "validatableFields": {},
-            "validity": true
-          }
+          "mode": 0,
+          "additionalFiles": [],
+          "params": {
+            "query": "",
+            "inserts": ""
+          },
+          "isGlobalEditMode": false,
+          "enableInject": true,
+          "isNewFromGlobal": false
         }
       }
     },
@@ -136,10 +111,10 @@
     ],
     "packageJSON": {
       "dependencies": {
-        "slappforge-sdk-redis": {
-          "name": "slappforge-sdk-redis",
+        "slappforge-sdk-aws": {
+          "name": "slappforge-sdk-aws",
           "language": "javascript",
-          "version": "0.0.3",
+          "version": "0.0.5",
           "dev": false,
           "notRemovable": false
         }
@@ -153,19 +128,14 @@
     "projectRegion": "us-east-1",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1564636506500
+    "lastSave": 1564637991802
   },
   "VCS_STATE": {
     "provider": "GitHub",
     "repo": {
       "name": "p",
       "url": "https://github.com/Kumudikatest/p",
-      "branches": [
-        {
-          "name": "master",
-          "hash": "16ef6669fd30976653ecd6bfe445f408018ebda4"
-        }
-      ]
+      "branches": []
     }
   }
 }
